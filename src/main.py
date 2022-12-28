@@ -43,14 +43,15 @@ def sitemap():
 
 @app.route('/user', methods=['GET'])
 def handle_hello():
-    usuarios= User.query.all()
-    list_user=list()
-    for u in usuarios:
-        list_user.append({"email":u.email,"is_active":u.is_active})
-    response_body ={"msg": "Hello, this is your GET /user response "}
-
-    return jsonify({"users":list_user}), 200
-
+    try:
+        usuarios= User.query.all()
+        list_user=list()
+        for u in usuarios:
+            list_user.append({"email":u.email,"is_active":u.is_active})
+        response_body ={"msg": "Hello, this is your GET /user response "}
+        return jsonify({"users":list_user}), 200
+    except Exception as e:
+        return jsonify({"mensaje":"No existe ningun usuario o ha ocurrido un errror"})
 @app.route('/CreateUser',methods=['POST'])
 def CreateUser():
     try:
